@@ -365,9 +365,6 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
         ),
-        _Gestures(
-          animationController: animationController,
-        ),
         Positioned.fill(
           child: widget.itemBuilder(
             context,
@@ -399,6 +396,9 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
           indicatorVisitedColor: widget.indicatorVisitedColor,
           indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
           indicatorAnimationController: widget.indicatorAnimationController,
+        ),
+        _Gestures(
+          animationController: animationController,
         ),
         Positioned.fill(
           child: widget.gestureItemBuilder?.call(
