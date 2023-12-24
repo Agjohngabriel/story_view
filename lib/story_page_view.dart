@@ -1,10 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 import 'package:story/story_image.dart';
 
@@ -272,36 +269,7 @@ class _StoryPageBuilder extends StatefulWidget {
         pageIndex: pageIndex,
         isCurrentPage: isCurrentPage,
         isPaging: isPaging,
-        itemBuilder: (BuildContext context, int currentIndex, int totalLength) {
-          return Stack(
-            children: [
-              Positioned.fill(
-                top: 80,
-                bottom: 150,
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  fit: BoxFit.contain,
-                  imageBuilder: (context, imageProvider) =>
-                      PhotoViewGallery(pageOptions: [
-                        PhotoViewGalleryPageOptions(
-                          imageProvider: imageProvider,
-                          initialScale:
-                          PhotoViewComputedScale.covered * 0.8,
-                        ),
-                      ])
-                  ,
-                  errorWidget: (context, url, error) {
-                    return Icon(Icons.image_not_supported_rounded,
-                        color: Colors.grey, size: 30);
-                  },
-                ),
-              ),
-            ],
-          );
-        },
+        itemBuilder: itemBuilder,
         gestureItemBuilder: gestureItemBuilder,
         indicatorDuration: indicatorDuration,
         indicatorPadding: indicatorPadding,
