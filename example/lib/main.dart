@@ -231,6 +231,7 @@ class _StoryPageState extends State<StoryPage> {
         onPageLimitReached: () {
           Navigator.pop(context);
         },
+        imageUrl: '"',
       ),
     );
   }
