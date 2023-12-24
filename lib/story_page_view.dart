@@ -41,8 +41,6 @@ class StoryPageView extends StatefulWidget {
     this.indicatorUnvisitedColor = Colors.grey,
     this.indicatorHeight = 2,
     this.showShadow = false,
-    required this.imageUrl,
-    this.others,
   }) : super(key: key);
 
   ///  visited color of [_Indicators]
@@ -93,10 +91,6 @@ class StoryPageView extends StatefulWidget {
 
   /// Whether to show shadow near indicator
   final bool showShadow;
-
-  final String imageUrl;
-
-  final List<Widget>? others;
 
   /// A stream with [IndicatorAnimationCommand] to force pause or continue inticator animation
   /// Useful when you need to show any popup over the story
@@ -150,31 +144,29 @@ class _StoryPageViewState extends State<StoryPageView> {
             child: Stack(
               children: [
                 _StoryPageBuilder.wrapped(
-                    showShadow: widget.showShadow,
-                    indicatorHeight: widget.indicatorHeight,
-                    pageLength: widget.pageLength,
-                    storyLength: widget.storyLength(index),
-                    initialStoryIndex:
-                        widget.initialStoryIndex?.call(index) ?? 0,
-                    pageIndex: index,
-                    animateToPage: (index) {
-                      pageController!.animateToPage(index,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.ease);
-                    },
-                    isCurrentPage: currentPageValue == index,
-                    isPaging: isPaging,
-                    onPageLimitReached: widget.onPageLimitReached,
-                    itemBuilder: widget.itemBuilder,
-                    gestureItemBuilder: widget.gestureItemBuilder,
-                    indicatorDuration: widget.indicatorDuration,
-                    indicatorPadding: widget.indicatorPadding,
-                    indicatorAnimationController:
-                        widget.indicatorAnimationController,
-                    indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
-                    indicatorVisitedColor: widget.indicatorVisitedColor,
-                    imageUrl: widget.imageUrl,
-                    others: widget.others),
+                  showShadow: widget.showShadow,
+                  indicatorHeight: widget.indicatorHeight,
+                  pageLength: widget.pageLength,
+                  storyLength: widget.storyLength(index),
+                  initialStoryIndex: widget.initialStoryIndex?.call(index) ?? 0,
+                  pageIndex: index,
+                  animateToPage: (index) {
+                    pageController!.animateToPage(index,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.ease);
+                  },
+                  isCurrentPage: currentPageValue == index,
+                  isPaging: isPaging,
+                  onPageLimitReached: widget.onPageLimitReached,
+                  itemBuilder: widget.itemBuilder,
+                  gestureItemBuilder: widget.gestureItemBuilder,
+                  indicatorDuration: widget.indicatorDuration,
+                  indicatorPadding: widget.indicatorPadding,
+                  indicatorAnimationController:
+                      widget.indicatorAnimationController,
+                  indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
+                  indicatorVisitedColor: widget.indicatorVisitedColor,
+                ),
                 if (isPaging && !isLeaving)
                   Positioned.fill(
                     child: Opacity(
@@ -194,25 +186,23 @@ class _StoryPageViewState extends State<StoryPageView> {
 }
 
 class _StoryPageBuilder extends StatefulWidget {
-  const _StoryPageBuilder._(
-      {Key? key,
-      required this.storyLength,
-      required this.initialStoryIndex,
-      required this.pageIndex,
-      required this.isCurrentPage,
-      required this.isPaging,
-      required this.itemBuilder,
-      required this.gestureItemBuilder,
-      required this.indicatorDuration,
-      required this.indicatorPadding,
-      required this.indicatorAnimationController,
-      required this.indicatorUnvisitedColor,
-      required this.indicatorVisitedColor,
-      required this.indicatorHeight,
-      required this.showShadow,
-      required this.imageUrl,
-      this.others})
-      : super(key: key);
+  const _StoryPageBuilder._({
+    Key? key,
+    required this.storyLength,
+    required this.initialStoryIndex,
+    required this.pageIndex,
+    required this.isCurrentPage,
+    required this.isPaging,
+    required this.itemBuilder,
+    required this.gestureItemBuilder,
+    required this.indicatorDuration,
+    required this.indicatorPadding,
+    required this.indicatorAnimationController,
+    required this.indicatorUnvisitedColor,
+    required this.indicatorVisitedColor,
+    required this.indicatorHeight,
+    required this.showShadow,
+  }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
   final int pageIndex;
@@ -227,8 +217,7 @@ class _StoryPageBuilder extends StatefulWidget {
   final Color indicatorUnvisitedColor;
   final double indicatorHeight;
   final bool showShadow;
-  final String imageUrl;
-  final List<Widget>? others;
+
 
   static Widget wrapped({
     required int pageIndex,
@@ -249,8 +238,6 @@ class _StoryPageBuilder extends StatefulWidget {
     required Color indicatorUnvisitedColor,
     required double indicatorHeight,
     required bool showShadow,
-    required String imageUrl,
-    List<Widget>? others,
   }) {
     return MultiProvider(
       providers: [
@@ -299,18 +286,19 @@ class _StoryPageBuilder extends StatefulWidget {
                   fit: BoxFit.contain,
                   imageBuilder: (context, imageProvider) =>
                       PhotoViewGallery(pageOptions: [
-                    PhotoViewGalleryPageOptions(
-                      imageProvider: imageProvider,
-                      initialScale: PhotoViewComputedScale.covered * 0.8,
-                    ),
-                  ]),
+                        PhotoViewGalleryPageOptions(
+                          imageProvider: imageProvider,
+                          initialScale:
+                          PhotoViewComputedScale.covered * 0.8,
+                        ),
+                      ])
+                  ,
                   errorWidget: (context, url, error) {
                     return Icon(Icons.image_not_supported_rounded,
                         color: Colors.grey, size: 30);
                   },
                 ),
               ),
-              ...others!.map((e) => e)
             ],
           );
         },
@@ -321,8 +309,6 @@ class _StoryPageBuilder extends StatefulWidget {
         indicatorVisitedColor: indicatorVisitedColor,
         indicatorUnvisitedColor: indicatorUnvisitedColor,
         indicatorHeight: indicatorHeight,
-        imageUrl: imageUrl,
-        others: others,
       ),
     );
   }
