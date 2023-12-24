@@ -397,9 +397,6 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
           indicatorUnvisitedColor: widget.indicatorUnvisitedColor,
           indicatorAnimationController: widget.indicatorAnimationController,
         ),
-        _Gestures(
-          animationController: animationController,
-        ),
         Positioned.fill(
           child: widget.gestureItemBuilder?.call(
                 context,
@@ -408,6 +405,11 @@ class _StoryPageBuilderState extends State<_StoryPageBuilder>
               ) ??
               const SizedBox.shrink(),
         ),
+        Positioned.fill(
+          child: _Gestures(
+            animationController: animationController,
+          ),
+        )
       ],
     );
   }
@@ -426,68 +428,66 @@ class _Gestures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final eightyPercentOfHeight = screenHeight * 0.8;
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
+        GestureDetector(
           child: Container(
             color: Colors.transparent,
-            child: GestureDetector(
-              onTap: () {
-                animationController!.forward(from: 0);
-                context.read<_StoryStackController>().decrement();
-              },
-              onTapDown: (_) {
-                animationController!.stop();
-              },
-              onTapUp: (_) {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-              onLongPress: () {
-                animationController!.stop();
-              },
-              onLongPressUp: () {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-            ),
+            width: 100,
           ),
+          onTap: () {
+            animationController!.forward(from: 0);
+            context.read<_StoryStackController>().decrement();
+          },
+          onTapDown: (_) {
+            animationController!.stop();
+          },
+          onTapUp: (_) {
+            if (storyImageLoadingController.value !=
+                StoryImageLoadingState.loading) {
+              animationController!.forward();
+            }
+          },
+          onLongPress: () {
+            animationController!.stop();
+          },
+          onLongPressUp: () {
+            if (storyImageLoadingController.value !=
+                StoryImageLoadingState.loading) {
+              animationController!.forward();
+            }
+          },
         ),
-        Expanded(
-          child: Container(
-            color: Colors.transparent,
-            child: GestureDetector(
-              onTap: () {
-                context.read<_StoryStackController>().increment(
-                      restartAnimation: () =>
-                          animationController!.forward(from: 0),
-                      completeAnimation: () => animationController!.value = 1,
-                    );
-              },
-              onTapDown: (_) {
-                animationController!.stop();
-              },
-              onTapUp: (_) {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-              onLongPress: () {
-                animationController!.stop();
-              },
-              onLongPressUp: () {
-                if (storyImageLoadingController.value !=
-                    StoryImageLoadingState.loading) {
-                  animationController!.forward();
-                }
-              },
-            ),
-          ),
+        GestureDetector(
+          child: Container(color: Colors.transparent, width: 100),
+          onTap: () {
+            context.read<_StoryStackController>().increment(
+                  restartAnimation: () => animationController!.forward(from: 0),
+                  completeAnimation: () => animationController!.value = 1,
+                );
+          },
+          onTapDown: (_) {
+            animationController!.stop();
+          },
+          onTapUp: (_) {
+            if (storyImageLoadingController.value !=
+                StoryImageLoadingState.loading) {
+              animationController!.forward();
+            }
+          },
+          onLongPress: () {
+            animationController!.stop();
+          },
+          onLongPressUp: () {
+            if (storyImageLoadingController.value !=
+                StoryImageLoadingState.loading) {
+              animationController!.forward();
+            }
+          },
         ),
       ],
     );
